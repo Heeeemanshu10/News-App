@@ -208,6 +208,13 @@ export default class News extends Component {
             loading: false
         }
     }
+    
+    async componentDidMount() {
+        let url = "https://newsapi.org/v2/top-headlines?country=in&apiKey=f2b970b162d74d11b4ac8896432a820a"
+        let data = await fetch(url)
+        let parsedData = await data.json()
+        this.setState({ articles: parsedData.articles })
+    }
 
     render() {
         return (
@@ -216,7 +223,7 @@ export default class News extends Component {
                 <div className='row'>
                     {this.state.articles.map((element) => {
                       return  <div className="col-md-3" key={element.url}>
-                            <NewsItem  title={element.title} description={element.description} imageUrl={element.urlToImage} newsUrl = {element.url}/>
+                            <NewsItem  title={element.title?element.title.slice(0,45):""} description={element.description?element.description.slice(0,88):""} imageUrl={element.urlToImage?element.urlToImage:"https://www.nydailynews.com/wp-content/uploads/2024/01/Orla-Baxendale-2.jpg?w=1024&h=731"} newsUrl = {element.url}/>
 
                         </div>
                     })}
